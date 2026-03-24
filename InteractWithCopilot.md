@@ -1,142 +1,234 @@
-# **GitHub Copilot Lab — Ask, Edit & Agent Mode for .NET (ASP.NET Core)**
+# **GitHub Copilot Lab — Inline Suggestions, Chat & Comments-to-Code for .NET**
 
 ## **Objective**
 
-This lab teaches how to use GitHub Copilot's **Ask**, **Edit**, and **Agent Mode** features to build and enhance an ASP.NET Core Web API application.
+This lab helps you understand and practice GitHub Copilot features in a .NET (ASP.NET Core) environment:
+
+* Inline Suggestions
+* Copilot Chat
+* Inline Chat
+* Comments-to-Code
+
+You will build a simple Web API while leveraging AI-assisted development.
 
 ---
 
 ## **Prerequisites**
 
-* Visual Studio Code / Visual Studio
-* GitHub Copilot enabled (Chat + Agent mode)
-* .NET SDK (LTS version, e.g., .NET 8)
+* Visual Studio Code / Visual Studio 2022
+* .NET SDK (LTS – .NET 8 recommended)
+* GitHub Copilot (enabled)
 * GitHub Copilot Chat extension installed
 
 ---
 
-# **SECTION 1 — Using Copilot ASK**
+# **SECTION 1 — Inline Suggestions**
 
-## **Goal:** Learn how to use *Ask* to generate and understand code.
-
----
-
-### **Task 1: Create a .NET Web API Project**
-
-#### **Prompt (Ask Mode)**
-
-Create an ASP.NET Core Web API project with a health check endpoint `/health` returning `{ status: "ok" }`. Provide the folder structure, commands, and code.
+## **Goal:** Use AI-powered real-time code completions
 
 ---
 
-### **Task 2: Understand Code**
+### **Task 1: Create Web API Project**
 
-#### **Prompt (Ask Mode)**
+#### **Steps**
 
-Explain how `app.Run()` and `app.MapGet()` work in ASP.NET Core and how request routing is processed internally.
+1. Run:
 
----
+   ```bash
+   dotnet new webapi -n CopilotDotNetLab
+   cd CopilotDotNetLab
+   dotnet run
+   ```
 
-# **SECTION 2 — Using Copilot EDIT**
-
-## **Goal:** Modify existing code using Edit instructions.
-
----
-
-### **Task 1: Add a Users Endpoint**
-
-#### **Prompt (Edit Mode)**
-
-Add a new endpoint `/users` that returns a list of users from an in-memory collection. Format the response as JSON. Do not modify the existing `/health` endpoint.
+2. Open project in VS Code
 
 ---
 
-### **Task 2: Add Request Logging Middleware**
+### **Task 2: Generate Model using Inline Suggestions**
 
-#### **Prompt (Edit Mode)**
+#### **Instructions**
 
-Add middleware that logs the HTTP method and URL for every request. Apply it globally.
+Start typing the following and let Copilot complete it:
 
----
-
-### **Task 3: Generate Unit Tests**
-
-#### **Prompt (Ask/Edit Mode)**
-
-Generate xUnit tests for the `/users` endpoint, including:
-
-* Status code validation
-* Response count
-* JSON structure validation
-
----
-
-# **SECTION 3 — Using Copilot AGENT MODE**
-
-## **Goal:** Use Copilot as an autonomous coding agent to perform multi-step tasks.
-
----
-
-### **Task 1: Refactor Project into Modular Architecture**
-
-#### **Prompt (Agent Mode)**
-
-You are my coding agent. Refactor this ASP.NET Core Web API into a modular architecture with:
-
-* /Controllers
-* /Services
-* /Models
-
-Move the `/users` logic into:
-
-* UsersController.cs
-* UsersService.cs
-
-Update dependency injection and ensure the app runs exactly as before. Explain the changes after refactoring. Begin only after confirming you understand the task.
-
----
-
-### **Task 2: Add Centralized Error Handling**
-
-#### **Prompt (Agent Mode)**
-
-Add centralized error handling using middleware.
-
-* Implement global exception handling middleware
-* Update the UsersService to throw an exception if the user list is empty
-* Modify the controller to handle and propagate errors
-
-Ensure API responses return structured JSON:
-
-```json
+```csharp
+public class User
 {
-  "status": "error",
-  "message": "error message"
-}
+```
+
+#### **Expected Outcome**
+
+Copilot suggests:
+
+* Id
+* Name
+* Email
+
+Accept suggestions using:
+
+* `Tab` (VS Code)
+* `Tab / Enter` (Visual Studio)
+
+---
+
+### **Task 3: Generate Endpoint with Inline Suggestions**
+
+#### **Instructions**
+
+Inside `Program.cs`, type:
+
+```csharp
+app.MapGet("/users", () =>
+{
+```
+
+Let Copilot:
+
+* Suggest list creation
+* Return sample users
+
+---
+
+# **SECTION 2 — Copilot Chat**
+
+## **Goal:** Use conversational AI for development
+
+---
+
+### **Task 1: Generate Endpoint via Chat**
+
+#### **Prompt (Copilot Chat)**
+
+Create a GET endpoint `/products` in ASP.NET Core that returns a list of products with id, name, and price.
+
+---
+
+### **Task 2: Explain Code**
+
+#### **Prompt (Copilot Chat)**
+
+Explain how dependency injection works in ASP.NET Core with examples.
+
+---
+
+### **Task 3: Improve Code**
+
+#### **Prompt (Copilot Chat)**
+
+Refactor this endpoint to follow clean code principles and add proper naming conventions.
+
+---
+
+# **SECTION 3 — Inline Chat**
+
+## **Goal:** Perform contextual edits directly in code
+
+---
+
+### **Task 1: Enhance Existing Endpoint**
+
+#### **Instructions**
+
+1. Select the `/users` endpoint code
+2. Trigger Inline Chat:
+
+   * VS Code: `Ctrl + I`
+
+#### **Prompt**
+
+Add filtering support to return users based on query parameter `name`.
+
+---
+
+### **Task 2: Add Validation**
+
+#### **Prompt (Inline Chat)**
+
+Add validation to ensure user name is not null or empty. Return appropriate HTTP response.
+
+---
+
+# **SECTION 4 — Comments to Code**
+
+## **Goal:** Convert natural language into working code
+
+---
+
+### **Task 1: Generate POST Endpoint**
+
+#### **Instructions**
+
+Write the following comment:
+
+```csharp
+// Create a POST endpoint to add a new user with validation and return 201 Created
+```
+
+Let Copilot generate:
+
+* Endpoint logic
+* Validation
+* Response
+
+---
+
+### **Task 2: Generate Middleware**
+
+#### **Instructions**
+
+```csharp
+// Create middleware to log request time, method, and path
+```
+
+Let Copilot generate middleware and integrate it.
+
+---
+
+### **Task 3: Generate Service Layer**
+
+#### **Instructions**
+
+```csharp
+// Create a UserService class with methods to get all users and add a user
 ```
 
 ---
 
-### **Task 3: Add Search Feature End-to-End**
+# **SECTION 5 — Challenge Exercise**
 
-#### **Prompt (Agent Mode)**
+## **Goal:** Combine all Copilot features
 
-Add a new endpoint:
+---
 
-```
-/users/search?name=
-```
+### **Task**
 
-Requirements:
+Build a feature:
 
-* Return users matching the search query
-* Implement logic in the service layer
-* Update controller and routing
-* Add unit tests for search functionality
-* Validate functionality using test execution
+### **Requirement**
+
+* Endpoint: `/orders`
+* Fields: Id, ProductName, Quantity
+* Add GET and POST endpoints
+* Add validation
+* Add logging
+
+### **Constraints**
+
+* Use:
+
+  * Inline Suggestions for model
+  * Comments-to-Code for endpoints
+  * Inline Chat for enhancements
+  * Copilot Chat for explanations
 
 ---
 
 # **Summary**
 
-This lab demonstrates how GitHub Copilot can be used effectively in **Ask**, **Edit**, and **Agent Mode** to accelerate development in ASP.NET Core. It covers project creation, code understanding, refactoring, middleware implementation, error handling, and feature development.
+In this lab, you practiced:
+
+* **Inline Suggestions** → Faster coding with real-time completions
+* **Copilot Chat** → Ask, explain, and refactor code
+* **Inline Chat** → Context-aware editing
+* **Comments-to-Code** → Convert natural language into working code
+
+These features significantly improve productivity and reduce development effort in ASP.NET Core applications.
